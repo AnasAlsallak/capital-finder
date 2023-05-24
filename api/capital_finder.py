@@ -64,21 +64,23 @@ class handler(BaseHTTPRequestHandler):
         country = dic.get("country")
         capital = dic.get("capital")
 
-        if capital and country:
+        if country and capital:
             url = "https://restcountries.com/v3.1/name/"
             req = requests.get(url + country)
             data = req.json()
-            matching_capitals = []
-
-            for country_data in data:
-                if capital in country_data.get("capital", []):
-                    matching_capitals.append(country_data)
-
-            if matching_capitals:
-                output = generate_country_info(matching_capitals)
-                output += "The provided country and capital match."
+            if len(data) > 0:
+                country_data = data[0]
+                country_name = country_data.get("name").get("common")
+                country_capitals = country_data.get("capital")
+                if capital in country_capitals:
+                    output = f"The capital of {country_name} is {capital}. It is a correct country/capital match."
+                else:
+                    output = f"The capital {capital} is not associated with the country {country_name}."
             else:
-                output = "No match found for the given country and capital."
+                output = f"No information available for the country {country}."
+        else:
+            output = "Please provide both the 'country' and 'capital' parameters."
+
         elif country:
             url = "https://restcountries.com/v3.1/name/"
             req = requests.get(url + country)
