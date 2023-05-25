@@ -5,7 +5,8 @@
 
 ## Setup
 
-How to initialize/run your application 
+How to initialize/run your application
+ 
         - First you need to clone the repo on your local machine using : git clone ssh-link
         - You need to create a venv using : python3.11 -m venv .venv
         - activate it : source .venv/bin/activate
